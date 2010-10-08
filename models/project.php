@@ -39,9 +39,10 @@ class Project extends FreshbooksAppModel {
 			'type' => 'text',
 			'null' => true,
 		),
-		
-		// TODO: ADD SUPPORT FOR TASKS
-		
+		'tasks' => array(
+			'type' => 'text',
+			'null' => true,
+		),
 	);
 	public $validate = array(
 		'name' => 'notEmpty',

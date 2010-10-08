@@ -90,60 +90,54 @@ class Recurring extends FreshbooksAppModel {
 		'p_street1' => array(
 			'type' => 'string',
 			'null' => true,
-			'default' => '',
 			'length' => 255,
 		),
 		'p_street2' => array(
 			'type' => 'string',
 			'null' => true,
-			'default' => '',
 			'length' => 255,
 		),
 		'p_city' => array(
 			'type' => 'string',
 			'null' => true,
-			'default' => '',
 			'length' => 255,
 		),
 		'p_state' => array(
 			'type' => 'string',
 			'null' => true,
-			'default' => '',
 			'length' => 255,
 		),
 		'p_country' => array(
 			'type' => 'string',
 			'null' => true,
-			'default' => '',
 			'length' => 255,
 		),
 		'p_code' => array(
 			'type' => 'string',
 			'null' => true,
-			'default' => '',
 			'length' => 255,
 		),
 		'vat_name' => array(
 			'type' => 'string',
 			'null' => true,
-			'default' => '',
 			'length' => 255,
 		),
 		'vat_number' => array(
 			'type' => 'string',
 			'null' => true,
-			'default' => '',
 			'length' => 255,
 		),
 		'return_uri' => array(
 			'type' => 'string',
 			'null' => true,
-			'default' => '',
 			'length' => 255,
+		),
+		'lines' => array(
+			'type' => 'text',
+			'null' => true,
 		),
 		
 		// TODO: Implement AutoBill
-		// TODO: Implement Lines
 		
 	);
 	public $validate = array(

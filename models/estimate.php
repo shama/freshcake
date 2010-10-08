@@ -120,8 +120,10 @@ class Estimate extends FreshbooksAppModel {
 			'default' => '',
 			'length' => 255,
 		),
-		
-		// TODO: Implment Lines on Invoice
+		'lines' => array(
+			'type' => 'text',
+			'null' => true,
+		),
 	);
 	public $validate = array(
 		'client_id' => 'numeric',
