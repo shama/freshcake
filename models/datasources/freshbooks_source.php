@@ -30,7 +30,6 @@
  * @copyright 2010 Kyle Robinson Young
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  * @version 1
- * @link http://www.kyletyoung.com/code/cakephp_freshbooks_plugin
  * 
  * TODO:
  * 	OAuth Support
@@ -131,7 +130,7 @@ class FreshbooksSource extends DataSource {
 		}
 		$params = array_map(create_function('$a', 'return array($a);'), $params);
 		$xml =& new Xml(array('Request' => array('method' => $method.'.'.$submethod)+$params));
-		$req = $xml->header().$xml->toString(false);
+		$req = $xml->toString(array('header' => true));
 		$res = $this->_parseResponse($this->http->get($this->url, null, array_merge(
 			$this->__getAuthArray(),
 			array('body' => $req)
@@ -196,9 +195,16 @@ class FreshbooksSource extends DataSource {
 		} else {
 			$submethod = 'create';
 		}
-		$data = array_map(create_function('$a', 'return array($a);'), $data);
-		$xml =& new Xml(array('Request' => array('method' => $method.'.'.$submethod)+array($method => $data)));
-		$req = $xml->header().$xml->toString(false);
+		foreach ($data as $key => $val) {
+			if (is_array($val)) {
+				$singular = Inflector::singularize($key);
+				$data[$key] = array($singular => $val);
+			}
+		}
+		$xml =& new Xml(array('Request' => array('method' => $method.'.'.$submethod)));
+		$node =& new Xml(array($method => $data), array('format' => 'tags'));
+		$xml->first()->append($node->children);
+		$req = $xml->toString(array('header' => true));
 		$res = $this->_parseResponse($this->http->get($this->url, null, array_merge(
 			$this->__getAuthArray(),
 			array('body' => $req)
@@ -241,7 +247,7 @@ class FreshbooksSource extends DataSource {
 		}
 		$method = (isset($model->method)) ? $model->method : Inflector::underscore($model->alias);
 		$xml =& new Xml(array('Request' => array('method' => $method.'.delete', $model->primaryKey => array($id))));
-		$req = $xml->header().$xml->toString(false);
+		$req = $xml->toString(array('header' => true));
 		$res = $this->_parseResponse($this->http->get($this->url, null, array_merge(
 			$this->__getAuthArray(),
 			array('body' => $req)

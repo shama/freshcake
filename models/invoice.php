@@ -17,7 +17,7 @@ class Invoice extends FreshbooksAppModel {
 		),
 		'client_id' => array(
 			'type' => 'integer',
-			'null' => true,
+			'null' => false,
 			'length' => 10,
 		),
 		'number' => array(
@@ -85,56 +85,50 @@ class Invoice extends FreshbooksAppModel {
 		'p_street1' => array(
 			'type' => 'string',
 			'null' => true,
-			'default' => '',
 			'length' => 255,
 		),
 		'p_street2' => array(
 			'type' => 'string',
 			'null' => true,
-			'default' => '',
 			'length' => 255,
 		),
 		'p_city' => array(
 			'type' => 'string',
 			'null' => true,
-			'default' => '',
 			'length' => 255,
 		),
 		'p_state' => array(
 			'type' => 'string',
 			'null' => true,
-			'default' => '',
 			'length' => 255,
 		),
 		'p_country' => array(
 			'type' => 'string',
 			'null' => true,
-			'default' => '',
 			'length' => 255,
 		),
 		'p_code' => array(
 			'type' => 'string',
 			'null' => true,
-			'default' => '',
 			'length' => 255,
 		),
 		'vat_name' => array(
 			'type' => 'string',
 			'null' => true,
-			'default' => '',
 			'length' => 255,
 		),
 		'vat_number' => array(
 			'type' => 'string',
 			'null' => true,
-			'default' => '',
 			'length' => 255,
 		),
-		
-		// TODO: Implment Lines on Invoice
+		'lines' => array(
+			'type' => 'text',
+			'null' => true,
+		),
 	);
 	public $validate = array(
-		
+		'client_id' => 'numeric',
 	);
 	
 	// TODO: sendByEmail
