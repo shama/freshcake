@@ -56,13 +56,14 @@ FreshCake is offered under an [MIT license](http://www.opensource.org/licenses/m
 * Implement recurring.auto_bill
 * Implement staff.current
 * Implement OAuth support
+* Use fixtures with test cases
 * i18n
 
 ### Changelog
 
 #### 0.2
 
-* Added test case for client model
+* Added test case for category, client, gateway, estimate model
 * Added support for project tasks
 * Added custom XML override to datasource
 * Added support for invoice and estimate lines

@@ -1,21 +1,21 @@
 <?php
 /**
- * Client Test
+ * Category Test
  * 
  * @package freshcake
  * @author Kyle Robinson Young <kyle at kyletyoung.com> 
  */
-App::import('Model', array('ConnectionManager', 'Freshbooks.Client'));
+App::import('Model', array('ConnectionManager', 'Freshbooks.Category'));
 App::import('Core', array('HttpSocket', 'Xml'));
 App::import('Helper', 'Xml');
 Mock::generate('HttpSocket');
 
-class ClientTest extends CakeTestCase {
+class CategoryTest extends CakeTestCase {
 
 /**
  * name
  */
-	public $name = 'Client';
+	public $name = 'Category';
 	
 /**
  * Model
@@ -70,17 +70,15 @@ class ClientTest extends CakeTestCase {
 		// TEST LIST
 		$xml =& new Xml($this->successXml);
 		$node =& new Xml(array(
-			'clients' => array(
-				'client' => array(
+			'categories' => array(
+				'category' => array(
 					array(
-						'client_id' => 13,
-						'first_name' => 'Test',
-						'last_name' => 'Person',
+						'category_id' => 13,
+						'name' => 'Test',
 					),
 					array(
-						'client_id' => 14,
-						'first_name' => 'Testy',
-						'last_name' => 'Persony',
+						'category_id' => 14,
+						'name' => 'Test 2',
 					),
 				),
 			),
@@ -93,17 +91,15 @@ class ClientTest extends CakeTestCase {
 		$res = $this->Model->find('all');
 		$this->assertEqual($res, array(
 			0 => array(
-				'Client' => array(
-					'client_id' => 13,
-					'first_name' => 'Test',
-					'last_name' => 'Person',
+				'Category' => array(
+					'category_id' => 13,
+					'name' => 'Test',
 				),
 			),
 			1 => array(
-				'Client' => array(
-					'client_id' => 14,
-					'first_name' => 'Testy',
-					'last_name' => 'Persony',
+				'Category' => array(
+					'category_id' => 14,
+					'name' => 'Test 2',
 				),
 			),
 		));
@@ -112,10 +108,9 @@ class ClientTest extends CakeTestCase {
 		// TEST GET
 		$xml =& new Xml($this->successXml);
 		$node =& new Xml(array(
-			'Client' => array(
-				'client_id' => 13,
-				'first_name' => 'Test',
-				'last_name' => 'Person',
+			'category' => array(
+				'category_id' => 13,
+				'name' => 'Test',
 			),
 		), array('format' => 'tags'));
 		$xml->first()->append($node->children);
@@ -125,10 +120,9 @@ class ClientTest extends CakeTestCase {
 		
 		$res = $this->Model->findById(13);
 		$this->assertEqual($res, array(
-			'Client' => array(
-				'client_id' => 13,
-				'first_name' => 'Test',
-				'last_name' => 'Person',
+			'Category' => array(
+				'category_id' => 13,
+				'name' => 'Test',
 			),
 		));
 		unset($xml, $node, $res);
@@ -140,17 +134,13 @@ class ClientTest extends CakeTestCase {
  */
 	public function testSave() {
 		$save_data = array(
-			'first_name' => 'Test',
-			'last_name' => 'Person',
-			'organization' => 'Test Inc.',
-			'email' => 'test@example.com',
-			'username' => 'testperson',
+			'name' => 'Test',
 		);
 		
 		// TEST CREATE
 		$xml =& new Xml($this->successXml);
 		$node =& new Xml(array(
-			'client_id' => 13,
+			'category_id' => 13,
 		), array('format' => 'tags'));
 		$xml->first()->append($node->children);
 		
