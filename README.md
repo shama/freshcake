@@ -46,7 +46,7 @@ FreshCake is offered under an [MIT license](http://www.opensource.org/licenses/m
 
 ### Roadmap and Known Issues
 
-* MORE TESTING! ADD TEST CASES!
+* MORE TESTING! MORE TESTS!
 * Fix issue with some text fields showing up as Array
 * Format lines/xml on invoice, estimate and recurring afterFind (so they dont break scaffold)
 * Implement better custom xml override (not schema based)
@@ -56,14 +56,15 @@ FreshCake is offered under an [MIT license](http://www.opensource.org/licenses/m
 * Implement recurring.auto_bill
 * Implement staff.current
 * Implement OAuth support
-* Use fixtures with test cases
+* Add support for staff (needs custom afterFind)
 * i18n
 
 ### Changelog
 
 #### 0.2
 
-* Added test case for category, client, gateway, estimate model
+* Added test case for expense, invoice, item, payment, project, recurring, staff, task, time_entry models
+* Added test case for category, client, gateway, estimate models
 * Added support for project tasks
 * Added custom XML override to datasource
 * Added support for invoice and estimate lines

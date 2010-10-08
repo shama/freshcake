@@ -1,21 +1,21 @@
 <?php
 /**
- * Client Test
+ * TimeEntry Test
  * 
  * @package freshcake
- * @author Kyle Robinson Young <kyle at kyletyoung.com> 
+ * @author Kyle Robinson Young <kyle at kyletyoung.com>
  */
-App::import('Model', array('ConnectionManager', 'Freshbooks.Client'));
+App::import('Model', array('ConnectionManager', 'Freshbooks.TimeEntry'));
 App::import('Core', array('HttpSocket', 'Xml'));
 App::import('Helper', 'Xml');
 Mock::generate('HttpSocket');
 
-class ClientTest extends CakeTestCase {
+class TimeEntryTest extends CakeTestCase {
 
 /**
  * name
  */
-	public $name = 'Client';
+	public $name = 'TimeEntry';
 
 /**
  * Model
@@ -70,17 +70,25 @@ class ClientTest extends CakeTestCase {
 		// TEST LIST
 		$xml =& new Xml($this->successXml);
 		$node =& new Xml(array(
-			'clients' => array(
-				'client' => array(
+			'time_entries' => array(
+				'time_entry' => array(
 					array(
-						'client_id' => 13,
-						'first_name' => 'Test',
-						'last_name' => 'Person',
+						'time_entry_id' => 13,
+						'staff_id' => 13,
+						'project_id' => 13,
+						'task_id' => 13,
+						'hours' => 99,
+						'date' => '2009-03-13',
+						'notes' => 'This is a test.',
 					),
 					array(
-						'client_id' => 14,
-						'first_name' => 'Testy',
-						'last_name' => 'Persony',
+						'time_entry_id' => 14,
+						'staff_id' => 13,
+						'project_id' => 13,
+						'task_id' => 13,
+						'hours' => 99,
+						'date' => '2009-03-13',
+						'notes' => 'This is a test.',
 					),
 				),
 			),
@@ -93,17 +101,25 @@ class ClientTest extends CakeTestCase {
 		$res = $this->Model->find('all');
 		$this->assertEqual($res, array(
 			0 => array(
-				'Client' => array(
-					'client_id' => 13,
-					'first_name' => 'Test',
-					'last_name' => 'Person',
+				'TimeEntry' => array(
+					'time_entry_id' => 13,
+					'staff_id' => 13,
+					'project_id' => 13,
+					'task_id' => 13,
+					'hours' => 99,
+					'date' => '2009-03-13',
+					'notes' => 'This is a test.',
 				),
 			),
 			1 => array(
-				'Client' => array(
-					'client_id' => 14,
-					'first_name' => 'Testy',
-					'last_name' => 'Persony',
+				'TimeEntry' => array(
+					'time_entry_id' => 14,
+					'staff_id' => 13,
+					'project_id' => 13,
+					'task_id' => 13,
+					'hours' => 99,
+					'date' => '2009-03-13',
+					'notes' => 'This is a test.',
 				),
 			),
 		));
@@ -112,10 +128,14 @@ class ClientTest extends CakeTestCase {
 		// TEST GET
 		$xml =& new Xml($this->successXml);
 		$node =& new Xml(array(
-			'Client' => array(
-				'client_id' => 13,
-				'first_name' => 'Test',
-				'last_name' => 'Person',
+			'time_entry' => array(
+				'time_entry_id' => 13,
+				'staff_id' => 13,
+				'project_id' => 13,
+				'task_id' => 13,
+				'hours' => 99,
+				'date' => '2009-03-13',
+				'notes' => 'This is a test.',
 			),
 		), array('format' => 'tags'));
 		$xml->first()->append($node->children);
@@ -125,10 +145,14 @@ class ClientTest extends CakeTestCase {
 		
 		$res = $this->Model->findById(13);
 		$this->assertEqual($res, array(
-			'Client' => array(
-				'client_id' => 13,
-				'first_name' => 'Test',
-				'last_name' => 'Person',
+			'TimeEntry' => array(
+				'time_entry_id' => 13,
+				'staff_id' => 13,
+				'project_id' => 13,
+				'task_id' => 13,
+				'hours' => 99,
+				'date' => '2009-03-13',
+				'notes' => 'This is a test.',
 			),
 		));
 		unset($xml, $node, $res);
@@ -140,17 +164,18 @@ class ClientTest extends CakeTestCase {
  */
 	public function testSave() {
 		$save_data = array(
-			'first_name' => 'Test',
-			'last_name' => 'Person',
-			'organization' => 'Test Inc.',
-			'email' => 'test@example.com',
-			'username' => 'testperson',
+			'staff_id' => 13,
+			'project_id' => 13,
+			'task_id' => 13,
+			'hours' => 99,
+			'date' => '2009-03-13',
+			'notes' => 'This is a test.',
 		);
 		
 		// TEST CREATE
 		$xml =& new Xml($this->successXml);
 		$node =& new Xml(array(
-			'client_id' => 13,
+			'time_entry_id' => 13,
 		), array('format' => 'tags'));
 		$xml->first()->append($node->children);
 		

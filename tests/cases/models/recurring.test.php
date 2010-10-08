@@ -1,21 +1,24 @@
 <?php
 /**
- * Client Test
+ * Recurring Test
  * 
  * @package freshcake
- * @author Kyle Robinson Young <kyle at kyletyoung.com> 
+ * @author Kyle Robinson Young <kyle at kyletyoung.com>
+ * 
+ * TODO:
+ * 	Add tests for lines and autobill
  */
-App::import('Model', array('ConnectionManager', 'Freshbooks.Client'));
+App::import('Model', array('ConnectionManager', 'Freshbooks.Recurring'));
 App::import('Core', array('HttpSocket', 'Xml'));
 App::import('Helper', 'Xml');
 Mock::generate('HttpSocket');
 
-class ClientTest extends CakeTestCase {
+class RecurringTest extends CakeTestCase {
 
 /**
  * name
  */
-	public $name = 'Client';
+	public $name = 'Recurring';
 
 /**
  * Model
@@ -70,17 +73,27 @@ class ClientTest extends CakeTestCase {
 		// TEST LIST
 		$xml =& new Xml($this->successXml);
 		$node =& new Xml(array(
-			'clients' => array(
-				'client' => array(
+			'recurrings' => array(
+				'recurring' => array(
 					array(
+						'recurring_id' => 13,
+						'frequency' => 'm',
+						'occurrences' => 0,
+						'stopped' => 1,
 						'client_id' => 13,
+						'organization' => 'Test Inc.',
 						'first_name' => 'Test',
 						'last_name' => 'Person',
 					),
 					array(
-						'client_id' => 14,
-						'first_name' => 'Testy',
-						'last_name' => 'Persony',
+						'recurring_id' => 14,
+						'frequency' => 'm',
+						'occurrences' => 0,
+						'stopped' => 1,
+						'client_id' => 13,
+						'organization' => 'Test Inc.',
+						'first_name' => 'Test',
+						'last_name' => 'Person',
 					),
 				),
 			),
@@ -93,17 +106,27 @@ class ClientTest extends CakeTestCase {
 		$res = $this->Model->find('all');
 		$this->assertEqual($res, array(
 			0 => array(
-				'Client' => array(
+				'Recurring' => array(
+					'recurring_id' => 13,
+					'frequency' => 'm',
+					'occurrences' => 0,
+					'stopped' => 1,
 					'client_id' => 13,
+					'organization' => 'Test Inc.',
 					'first_name' => 'Test',
 					'last_name' => 'Person',
 				),
 			),
 			1 => array(
-				'Client' => array(
-					'client_id' => 14,
-					'first_name' => 'Testy',
-					'last_name' => 'Persony',
+				'Recurring' => array(
+					'recurring_id' => 14,
+					'frequency' => 'm',
+					'occurrences' => 0,
+					'stopped' => 1,
+					'client_id' => 13,
+					'organization' => 'Test Inc.',
+					'first_name' => 'Test',
+					'last_name' => 'Person',
 				),
 			),
 		));
@@ -112,8 +135,13 @@ class ClientTest extends CakeTestCase {
 		// TEST GET
 		$xml =& new Xml($this->successXml);
 		$node =& new Xml(array(
-			'Client' => array(
+			'recurring' => array(
+				'recurring_id' => 13,
+				'frequency' => 'm',
+				'occurrences' => 0,
+				'stopped' => 1,
 				'client_id' => 13,
+				'organization' => 'Test Inc.',
 				'first_name' => 'Test',
 				'last_name' => 'Person',
 			),
@@ -125,8 +153,13 @@ class ClientTest extends CakeTestCase {
 		
 		$res = $this->Model->findById(13);
 		$this->assertEqual($res, array(
-			'Client' => array(
+			'Recurring' => array(
+				'recurring_id' => 13,
+				'frequency' => 'm',
+				'occurrences' => 0,
+				'stopped' => 1,
 				'client_id' => 13,
+				'organization' => 'Test Inc.',
 				'first_name' => 'Test',
 				'last_name' => 'Person',
 			),
@@ -140,17 +173,19 @@ class ClientTest extends CakeTestCase {
  */
 	public function testSave() {
 		$save_data = array(
+			'frequency' => 'm',
+			'occurrences' => 0,
+			'stopped' => 1,
+			'client_id' => 13,
+			'organization' => 'Test Inc.',
 			'first_name' => 'Test',
 			'last_name' => 'Person',
-			'organization' => 'Test Inc.',
-			'email' => 'test@example.com',
-			'username' => 'testperson',
 		);
 		
 		// TEST CREATE
 		$xml =& new Xml($this->successXml);
 		$node =& new Xml(array(
-			'client_id' => 13,
+			'recurring_id' => 13,
 		), array('format' => 'tags'));
 		$xml->first()->append($node->children);
 		

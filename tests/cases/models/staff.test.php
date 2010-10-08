@@ -1,21 +1,28 @@
 <?php
 /**
- * Client Test
+ * Staff Test
  * 
  * @package freshcake
- * @author Kyle Robinson Young <kyle at kyletyoung.com> 
+ * @author Kyle Robinson Young <kyle at kyletyoung.com>
+ * 
+ * TODO:
+ * 	Add text for staff.current
+ * 
  */
-App::import('Model', array('ConnectionManager', 'Freshbooks.Client'));
+App::import('Model', array('ConnectionManager', 'Freshbooks.Staff'));
 App::import('Core', array('HttpSocket', 'Xml'));
 App::import('Helper', 'Xml');
 Mock::generate('HttpSocket');
 
-class ClientTest extends CakeTestCase {
+// TODO: IGNORE UNTIL STAFF IS IMPLEMENTED
+SimpleTest::ignore('StaffTest');
+
+class StaffTest extends CakeTestCase {
 
 /**
  * name
  */
-	public $name = 'Client';
+	public $name = 'Staff';
 
 /**
  * Model
@@ -70,17 +77,21 @@ class ClientTest extends CakeTestCase {
 		// TEST LIST
 		$xml =& new Xml($this->successXml);
 		$node =& new Xml(array(
-			'clients' => array(
-				'client' => array(
+			'staff_members' => array(
+				'member' => array(
 					array(
-						'client_id' => 13,
+						'staff_id' => 13,
+						'username' => 'test',
 						'first_name' => 'Test',
 						'last_name' => 'Person',
+						'email' => 'test@example.com',
 					),
 					array(
-						'client_id' => 14,
-						'first_name' => 'Testy',
-						'last_name' => 'Persony',
+						'staff_id' => 14,
+						'username' => 'test',
+						'first_name' => 'Test',
+						'last_name' => 'Person',
+						'email' => 'test@example.com',
 					),
 				),
 			),
@@ -93,17 +104,21 @@ class ClientTest extends CakeTestCase {
 		$res = $this->Model->find('all');
 		$this->assertEqual($res, array(
 			0 => array(
-				'Client' => array(
-					'client_id' => 13,
+				'Staff' => array(
+					'staff_id' => 13,
+					'username' => 'test',
 					'first_name' => 'Test',
 					'last_name' => 'Person',
+					'email' => 'test@example.com',
 				),
 			),
 			1 => array(
-				'Client' => array(
-					'client_id' => 14,
+				'Staff' => array(
+					'staff_id' => 14,
+					'username' => 'testy',
 					'first_name' => 'Testy',
 					'last_name' => 'Persony',
+					'email' => 'test@example.com',
 				),
 			),
 		));
@@ -112,10 +127,12 @@ class ClientTest extends CakeTestCase {
 		// TEST GET
 		$xml =& new Xml($this->successXml);
 		$node =& new Xml(array(
-			'Client' => array(
-				'client_id' => 13,
+			'staff' => array(
+				'staff_id' => 13,
+				'username' => 'test',
 				'first_name' => 'Test',
 				'last_name' => 'Person',
+				'email' => 'test@example.com',
 			),
 		), array('format' => 'tags'));
 		$xml->first()->append($node->children);
@@ -125,67 +142,15 @@ class ClientTest extends CakeTestCase {
 		
 		$res = $this->Model->findById(13);
 		$this->assertEqual($res, array(
-			'Client' => array(
-				'client_id' => 13,
+			'Staff' => array(
+				'staff_id' => 13,
+				'username' => 'test',
 				'first_name' => 'Test',
 				'last_name' => 'Person',
+				'email' => 'test@example.com',
 			),
 		));
 		unset($xml, $node, $res);
-		
-	}
-
-/**
- * testSave
- */
-	public function testSave() {
-		$save_data = array(
-			'first_name' => 'Test',
-			'last_name' => 'Person',
-			'organization' => 'Test Inc.',
-			'email' => 'test@example.com',
-			'username' => 'testperson',
-		);
-		
-		// TEST CREATE
-		$xml =& new Xml($this->successXml);
-		$node =& new Xml(array(
-			'client_id' => 13,
-		), array('format' => 'tags'));
-		$xml->first()->append($node->children);
-		
-		$this->Ds->http =& new MockHttpSocket();
-		$this->Ds->http->setReturnValue('get', $xml->toString());
-		
-		$this->assertTrue($this->Model->save($save_data));
-		$this->assertEqual($this->Model->id, 13);
-		unset($xml, $node);
-		
-		// TEST UPDATE
-		$xml =& new Xml($this->successXml);
-		
-		$this->Ds->http =& new MockHttpSocket();
-		$this->Ds->http->setReturnValue('get', $xml->toString());
-		
-		$this->Model->id = 13;
-		$this->assertTrue($this->Model->save($save_data));
-		$this->assertEqual($this->Model->id, 13);
-		unset($xml, $node);
-	}
-
-/**
- * testDelete
- */
-	public function testDelete() {
-		
-		// TEST DELETE
-		$xml =& new Xml($this->successXml);
-		
-		$this->Ds->http =& new MockHttpSocket();
-		$this->Ds->http->setReturnValue('get', $xml->toString());
-		
-		$this->assertTrue($this->Model->delete(13));
-		unset($xml);
 		
 	}
 
