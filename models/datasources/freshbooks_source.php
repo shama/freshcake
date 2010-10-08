@@ -216,7 +216,9 @@ class FreshbooksSource extends DataSource {
 		if ($res === false) {
 			return false;
 		}
-		$model->id = current(Set::extract('/Response/'.$model->primaryKey, $res));
+		if ($submethod == 'create') {
+			$model->id = current(Set::extract('/Response/'.$model->primaryKey, $res));
+		}
 		return true;
 	}
 
@@ -271,9 +273,14 @@ class FreshbooksSource extends DataSource {
  */
 	protected function _parseResponse($response=null) {
 		$xml =& new Xml($response);
+		// TODO: Switch to array based to avoid fatal errors.
 		$status = $xml->first()->attributes['status'];
 		if ($status != 'ok') {
-			throw new Exception(__d('freshbooks', $xml->first()->child('error')->first()->value, true));
+			$err = $xml->first()->child('error')->first()->value;
+			if (empty($err)) {
+				$err = 'An unknown error occurred.';
+			}
+			throw new Exception(__d('freshbooks', $err, true));
 			return false;
 		}
 		return $xml->toArray();

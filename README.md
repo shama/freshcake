@@ -48,6 +48,8 @@ FreshCake is offered under an [MIT license](http://www.opensource.org/licenses/m
 
 * MORE TESTING! ADD TEST CASES!
 * Fix issue with some text fields showing up as Array
+* Format lines/xml on invoice, estimate and recurring afterFind (so they dont break scaffold)
+* Implement better custom xml override (not schema based)
 * Implement callback.verify, callback.resendToken
 * Implement estimate.sendByEmail
 * Implement invoice.sendByEmail, invoice.sendBySnailMail
@@ -60,6 +62,7 @@ FreshCake is offered under an [MIT license](http://www.opensource.org/licenses/m
 
 #### 0.2
 
+* Added test case for client model
 * Added support for project tasks
 * Added custom XML override to datasource
 * Added support for invoice and estimate lines
