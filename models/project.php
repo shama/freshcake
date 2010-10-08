@@ -5,6 +5,7 @@
  * @package freshcake
  * @author Kyle Robinson Young, kyletyoung.com
  */
+App::import('Core', 'Xml');
 class Project extends FreshbooksAppModel {
 	public $name = 'Project';
 	public $displayField = 'name';
@@ -43,9 +44,40 @@ class Project extends FreshbooksAppModel {
 			'type' => 'text',
 			'null' => true,
 		),
+		'xml' => array(
+			'type' => 'text',
+			'null' => true,
+		),
 	);
 	public $validate = array(
 		'name' => 'notEmpty',
 		'billMethod' => 'notEmpty',
 	);
+
+/**
+ * beforeSave
+ * Custom format because datasource 
+ * can't handle 'tasks'.
+ * 
+ * @return boolean
+ */
+	public function beforeSave() {
+		parent::beforeSave();
+		if (isset($this->data[$this->name]['tasks'])) {
+			$tasks =& new Xml(
+				array('tasks' => $this->data[$this->name]['tasks']),
+				array('format' => 'tags')
+			);
+			unset($this->data[$this->name]['tasks']);
+			$data =& new Xml($this->data, array('format' => 'tags'));
+			$data->first()->append($tasks->children);
+			$xml = $data->toString();
+			$this->data = array(
+				$this->name => array(
+					'xml' => $xml,
+				),
+			);
+		}
+		return true;
+	}
 }

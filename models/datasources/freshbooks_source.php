@@ -29,7 +29,7 @@
  * @author Kyle Robinson Young <kyle at kyletyoung.com>
  * @copyright 2010 Kyle Robinson Young
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License
- * @version 1
+ * @version 0.2
  * 
  * TODO:
  * 	OAuth Support
@@ -195,14 +195,18 @@ class FreshbooksSource extends DataSource {
 		} else {
 			$submethod = 'create';
 		}
-		foreach ($data as $key => $val) {
-			if (is_array($val)) {
-				$singular = Inflector::singularize($key);
-				$data[$key] = array($singular => $val);
-			}
-		}
 		$xml =& new Xml(array('Request' => array('method' => $method.'.'.$submethod)));
-		$node =& new Xml(array($method => $data), array('format' => 'tags'));
+		if (!isset($data['xml'])) {
+			foreach ($data as $key => $val) {
+				if (is_array($val)) {
+					$singular = Inflector::singularize($key);
+					$data[$key] = array($singular => $val);
+				}
+			}
+			$node =& new Xml(array($method => $data), array('format' => 'tags'));
+		} else {
+			$node =& new Xml($data['xml']);
+		}
 		$xml->first()->append($node->children);
 		$req = $xml->toString(array('header' => true));
 		$res = $this->_parseResponse($this->http->get($this->url, null, array_merge(

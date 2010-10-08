@@ -49,15 +49,20 @@ FreshCake is offered under an [MIT license](http://www.opensource.org/licenses/m
 * MORE TESTING! ADD TEST CASES!
 * Fix issue with some text fields showing up as Array
 * Implement callback.verify, callback.resendToken
-* Implement estimate.sendByEmail, Invoice Lines on Estimate
-* Implement invoice.sendByEmail, invoice.sendBySnailMail, Invoice Lines on Invoice
-* Implement support for project tasks
-* Implement recurring.auto_bill, recurring.lines
+* Implement estimate.sendByEmail
+* Implement invoice.sendByEmail, invoice.sendBySnailMail
+* Implement recurring.auto_bill
 * Implement staff.current
 * Implement OAuth support
 * i18n
 
 ### Changelog
+
+#### 0.2
+
+* Added support for project tasks
+* Added custom XML override to datasource
+* Added support for invoice and estimate lines
 
 #### 0.1
 
