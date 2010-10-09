@@ -32,7 +32,42 @@ class Callback extends FreshbooksAppModel {
 		'event' => 'notEmpty',
 		'uri' => 'notEmpty',
 	);
-	
-	// TODO: Add verify
-	// TODO: Add resendToken
+
+/**
+ * verify
+ * @param array $data
+ * @return boolean
+ */
+	public function verify($data=null) {
+		if (!class_exists('Xml')) {
+			App::import('Core', 'Xml');
+		}
+		$xml =& new Xml(array('request' => array('method' => 'callback.verify')));
+		$node =& new Xml(array('callback' => $data), array('format' => 'tags'));
+		$xml->first()->append($node->children);
+		$res = $this->freshbooks($xml->toString(array('header' => true)));
+		if ($res === false) {
+			return false;
+		}
+		return true;
+	}
+
+/**
+ * resendToken
+ * @param array $data
+ * @return boolean
+ */
+	public function resendToken($data=null) {
+		if (!class_exists('Xml')) {
+			App::import('Core', 'Xml');
+		}
+		$xml =& new Xml(array('request' => array('method' => 'callback.resendToken')));
+		$node =& new Xml(array('callback' => $data), array('format' => 'tags'));
+		$xml->first()->append($node->children);
+		$res = $this->freshbooks($xml->toString(array('header' => true)));
+		if ($res === false) {
+			return false;
+		}
+		return true;
+	}
 }

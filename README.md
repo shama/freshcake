@@ -150,8 +150,6 @@ FreshCake is offered under an [MIT license](http://www.opensource.org/licenses/m
 * MORE TESTING! MORE TESTS!
 * Fix issue with some text fields showing up as Array
 * Format lines/xml on invoice, estimate and recurring afterFind (so they dont break scaffold)
-* Implement better custom xml override (not schema based)
-* Implement callback.verify, callback.resendToken
 * Implement estimate.sendByEmail
 * Implement invoice.sendByEmail, invoice.sendBySnailMail
 * Implement recurring.auto_bill
@@ -165,6 +163,10 @@ FreshCake is offered under an [MIT license](http://www.opensource.org/licenses/m
 
 ### 0.2
 
+* Added test cases for callback.verify, callback.resendToken
+* Added support for callback.verify, callback.resendToken
+* Added methods to return last request and response xml
+* Built a better method for sending xml directly to freshbooks
 * Added test case for expense, invoice, item, payment, project, recurring, staff, task, time_entry models
 * Added test case for category, client, gateway, estimate models
 * Added support for project tasks

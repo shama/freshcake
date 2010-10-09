@@ -6,7 +6,7 @@
  * @author Kyle Robinson Young <kyle at kyletyoung.com>
  * 
  * TODO:
- * 	Add text for staff.current
+ * 	Add test for staff.current
  * 
  */
 App::import('Model', array('ConnectionManager', 'Freshbooks.Staff'));

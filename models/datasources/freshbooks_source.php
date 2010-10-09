@@ -72,6 +72,20 @@ class FreshbooksSource extends DataSource {
 	public $url = null;
 
 /**
+ * __requestXml
+ * Stores the last sent xml string
+ * @var string
+ */
+	private $__requestXml = null;
+
+/**
+ * __responseXml
+ * Stores the last received xml string
+ * @var string
+ */
+	private $__responseXml = null;
+
+/**
  * __construct
  * @param array $config
  */
@@ -130,10 +144,10 @@ class FreshbooksSource extends DataSource {
 		}
 		$params = array_map(create_function('$a', 'return array($a);'), $params);
 		$xml =& new Xml(array('Request' => array('method' => $method.'.'.$submethod)+$params));
-		$req = $xml->toString(array('header' => true));
+		$this->__requestXml = $xml->toString(array('header' => true));
 		$res = $this->_parseResponse($this->http->get($this->url, null, array_merge(
 			$this->__getAuthArray(),
-			array('body' => $req)
+			array('body' => $this->__requestXml)
 		)));
 		if ($res === false) {
 			return array();
@@ -153,9 +167,12 @@ class FreshbooksSource extends DataSource {
 
 /**
  * query
+ * Give outside access to things in datasource.
+ * 
  * @param string $query
  * @param array $data
  * @param object $model
+ * @return mixed
  */
 	public function query($query=null, $data=null, &$model=null) {
 		if (strpos(strtolower($query), 'findby') === 0) {
@@ -168,6 +185,23 @@ class FreshbooksSource extends DataSource {
 					$field => current($data),
 				),
 			));
+		}
+		if (strtolower($query) == 'freshbooks') {
+			$this->__requestXml = current($data);
+			$res = $this->_parseResponse($this->http->get($this->url, null, array_merge(
+				$this->__getAuthArray(),
+				array('body' => $this->__requestXml)
+			)));
+			if ($res === false) {
+				return false;
+			}
+			return $res;
+		}
+		if (strtolower($query) == 'requestxml') {
+			return $this->__requestXml;
+		}
+		if (strtolower($query) == 'responsexml') {
+			return $this->__responseXml;
 		}
 		throw new Exception(__d('freshbooks', 'Sorry, that find method is not supported.', true));
 	}
@@ -208,10 +242,10 @@ class FreshbooksSource extends DataSource {
 			$node =& new Xml($data['xml']);
 		}
 		$xml->first()->append($node->children);
-		$req = $xml->toString(array('header' => true));
+		$this->__requestXml = $xml->toString(array('header' => true));
 		$res = $this->_parseResponse($this->http->get($this->url, null, array_merge(
 			$this->__getAuthArray(),
-			array('body' => $req)
+			array('body' => $this->__requestXml)
 		)));
 		if ($res === false) {
 			return false;
@@ -272,6 +306,7 @@ class FreshbooksSource extends DataSource {
  * @return array
  */
 	protected function _parseResponse($response=null) {
+		$this->__responseXml = $response;
 		$xml =& new Xml($response);
 		// TODO: Switch to array based to avoid fatal errors.
 		$status = $xml->first()->attributes['status'];
