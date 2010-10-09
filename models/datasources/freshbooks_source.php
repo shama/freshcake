@@ -230,16 +230,21 @@ class FreshbooksSource extends DataSource {
 			$submethod = 'create';
 		}
 		$xml =& new Xml(array('Request' => array('method' => $method.'.'.$submethod)));
-		if (!isset($data['xml'])) {
-			foreach ($data as $key => $val) {
-				if (is_array($val)) {
-					$singular = Inflector::singularize($key);
-					$data[$key] = array($singular => $val);
-				}
+		$node =& new Xml(array($method => array()));
+		foreach ($data as $key => $val) {
+			if (is_array($val)) {
+				$singular = Inflector::singularize($key);
+				$val = array($key => array($singular => $val));
+				$node->first()->append($val, array('format' => 'tags'));
+				unset($data[$key]);
+			} elseif (substr($val, 0, 1) == '<') {
+				$my_node =& new Xml($val);
+				$node->first()->append($my_node->children);
+				unset($data[$key]);
+			} else {
+				$my = array($key => array(array($val)));
+				$node->first()->append($my);
 			}
-			$node =& new Xml(array($method => $data), array('format' => 'tags'));
-		} else {
-			$node =& new Xml($data['xml']);
 		}
 		$xml->first()->append($node->children);
 		$this->__requestXml = $xml->toString(array('header' => true));

@@ -148,21 +148,22 @@ FreshCake is offered under an [MIT license](http://www.opensource.org/licenses/m
 ## Roadmap and Known Issues
 
 * MORE TESTING! MORE TESTS!
-* Fix issue with some text fields showing up as Array
-* Format lines/xml on invoice, estimate and recurring afterFind (so they dont break scaffold)
-* Implement estimate.sendByEmail
-* Implement invoice.sendByEmail, invoice.sendBySnailMail
-* Implement recurring.auto_bill
-* Implement staff.current
-* Implement OAuth support
-* Add support for staff (needs custom afterFind)
-* Test support for linking models together (hopefully already does automatically)
-* i18n
+* Fix issue with some text fields showing up as Array - v0.2
+* Format lines/xml on invoice, estimate and recurring afterFind (so they dont break scaffold) - v0.2
+* Implement estimate.sendByEmail - v0.2
+* Implement invoice.sendByEmail, invoice.sendBySnailMail - v0.2
+* Implement recurring.auto_bill - v0.2
+* Implement staff.current - v0.2
+* Add support for staff (needs custom afterFind) - v0.2
+* Test support for linking models together (hopefully already does automatically) - v0.2
+* Implement OAuth support - v0.3
+* i18n - v0.3
 
 ## Changelog
 
 ### 0.2
 
+* Fields can be set to custom XML now (needed for fixing tasks in project)
 * Added test cases for callback.verify, callback.resendToken
 * Added support for callback.verify, callback.resendToken
 * Added methods to return last request and response xml

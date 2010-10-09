@@ -44,10 +44,6 @@ class Project extends FreshbooksAppModel {
 			'type' => 'text',
 			'null' => true,
 		),
-		'xml' => array(
-			'type' => 'text',
-			'null' => true,
-		),
 	);
 	public $validate = array(
 		'name' => 'notEmpty',
@@ -56,8 +52,8 @@ class Project extends FreshbooksAppModel {
 
 /**
  * beforeSave
- * Custom format because datasource 
- * can't handle 'tasks'.
+ * Set tasks to xml as the datasource 
+ * cant handle it automatically
  * 
  * @return boolean
  */
@@ -68,15 +64,7 @@ class Project extends FreshbooksAppModel {
 				array('tasks' => $this->data[$this->name]['tasks']),
 				array('format' => 'tags')
 			);
-			unset($this->data[$this->name]['tasks']);
-			$data =& new Xml($this->data, array('format' => 'tags'));
-			$data->first()->append($tasks->children);
-			$xml = $data->toString();
-			$this->data = array(
-				$this->name => array(
-					'xml' => $xml,
-				),
-			);
+			$this->data[$this->name]['tasks'] = $tasks->toString();
 		}
 		return true;
 	}
