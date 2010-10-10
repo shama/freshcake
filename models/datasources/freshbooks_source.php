@@ -152,26 +152,31 @@ class FreshbooksSource extends DataSource {
 		if ($res === false) {
 			return array();
 		}
+		$findTable = Inflector::camelize($model->useTable);
+		$findAlias = $model->alias;
 		if ($data['fields'] == 'count') {
 			if ($submethod == 'get') {
-				return array(array(array('count' => 1)));
+				$res = array(array(array('count' => 1)));
 			} else {
-				return array(array(array('count' => current(Set::extract('/Response/'.Inflector::camelize($model->useTable).'/total', $res)))));
+				$res = array(array(array('count' => current(Set::extract('/Response/'.$findTable.'/total', $res)))));
 			}
 		} elseif ($submethod == 'get') {
-			return array(array($model->alias => current(Set::extract('/Response/'.$model->alias.'/.', $res))));
+			$this->_formatResponse($res);
+			$res = array(array($model->alias => current(Set::extract('/Response/'.$findAlias.'/.', $res))));
 		} else {
+			$this->_formatResponse($res, 3);
 			// MEH, ALMOST A HACKLESS DATASOURCE
 			if ($model->alias == 'Staff') {
-				$res = Set::extract('/Response/'.Inflector::camelize($model->useTable).'/Member', $res, array('flatten' => false));
+				$res = Set::extract('/Response/'.$findTable.'/Member', $res, array('flatten' => false));
 				foreach ($res as $key => $val) {
 					$res[$key]['Staff'] = $val['Member'];
 					unset($res[$key]['Member']);
 				}
-				return $res;
+			} else {
+				$res = Set::extract('/Response/'.$findTable.'/'.$findAlias, $res, array('flatten' => false));
 			}
-			return Set::extract('/Response/'.Inflector::camelize($model->useTable).'/'.$model->alias, $res, array('flatten' => false));
 		}
+		return $res;
 	}
 
 /**
@@ -204,6 +209,7 @@ class FreshbooksSource extends DataSource {
 			if ($res === false) {
 				return false;
 			}
+			$this->_formatResponse($res);
 			return $res;
 		}
 		if (strtolower($query) == 'requestxml') {
@@ -335,6 +341,32 @@ class FreshbooksSource extends DataSource {
 		return $xml->toArray();
 	}
 
+/**
+ * _formatResponse
+ * All keys in array lowercase and
+ * blank arrays become ''
+ * 
+ * @param array $data
+ * @param integer $skip
+ * @return array
+ */
+	protected function _formatResponse(&$data=null, $skip=2) {
+		if ($skip == 0) {
+			$data = array_change_key_case($data, CASE_LOWER);
+		} else {
+			$skip--;
+		}
+		foreach ($data as $key => $val) {
+			if (is_array($val)) {
+				if (sizeof($val) == 0) {
+					$data[$key] = '';
+				} else {
+					$this->_formatResponse($data[$key], $skip);
+				}
+			}
+		}
+	}
+	
 /**
  * listSources
  * @return boolean

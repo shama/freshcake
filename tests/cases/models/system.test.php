@@ -4,11 +4,6 @@
  * 
  * @package freshcake
  * @author Kyle Robinson Young <kyle at kyletyoung.com>
- * 
- * TODO:
- * 	Test case needs to be fixed as returned results should be 
- * 	all lower case and empty arrays should be ''
- * 
  */
 App::import('Model', array('ConnectionManager', 'Freshbooks.System'));
 App::import('Core', array('HttpSocket', 'Xml'));
@@ -98,15 +93,15 @@ class SystemTest extends CakeTestCase {
 			'System' => array(
 				'company_name' => 'Test Inc',
 				'profession' => 'Cake Plugin Builder',
-				'Address' => array(
+				'address' => array(
 					'street1' => '123 Fake St',
-					'street2' => array(),
+					'street2' => '',
 					'city' => 'Test',
 					'province' => 'BC',
 					'postal_code' => '12345',
 					'country' => 'Canada',
 				),
-				'Api' => array(
+				'api' => array(
 					'requests' => 2,
 					'request_limit' => 5000,
 				),
@@ -114,6 +109,7 @@ class SystemTest extends CakeTestCase {
 		));
 		unset($xml);
 	}
+
 /**
  * end
  */

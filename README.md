@@ -15,15 +15,19 @@ PHP5+, CakePHP 1.3+, FreshBooks account (w/ API credentials)
 1. [Sign up](http://freshbooks.com) for a FreshBooks account, they are free!
 2. Extract the contents of this repo into *app/plugins/freshbooks/* or use [git clone](http://www.kernel.org/pub/software/scm/git/docs/git-clone.html) or [git submodule](http://www.kernel.org/pub/software/scm/git/docs/git-submodule.html) in your plugins folder:
 
+
     git clone git://github.com/shama/freshcake.git freshbooks
 
+
 3. Copy the following lines into *app/config/database.php* and add your subdomain and api token:
+
 
     var $freshbooks = array(
         'datasource' => 'freshbooks.freshbooks',
         'subdomain' => 'SUBDOMAIN-HERE',
         'token' => 'TOKEN-HERE',
     );
+
 
 *Your subdomain is what you typed into the 'login page' field when you signed up or the word between http:// and .freshbooks.com in your login url.*
 
@@ -153,8 +157,6 @@ FreshCake is offered under an [MIT license](http://www.opensource.org/licenses/m
 * MORE TESTING! MORE TESTS!
 * Fix issue with some text fields showing up as Array - v0.2
 * Format lines/xml on invoice, estimate and recurring afterFind (so they dont break scaffold) - v0.2
-* Uppercases returned results if array, it should not - v0.2
-* Returns blank arrays when it should return '' - v0.2
 * Test support for linking models together (hopefully already does automatically) - v0.2
 * Implement OAuth support - v0.3
 * i18n - v0.3
@@ -163,6 +165,7 @@ FreshCake is offered under an [MIT license](http://www.opensource.org/licenses/m
 
 ### 0.2
 
+* Fixed formatting issues with responses
 * Implemented system.current and added test case
 * Implemented staff.current and fixed response from staff.list
 * Implemented recurring autobill and added test cases
