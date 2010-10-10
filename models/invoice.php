@@ -130,8 +130,42 @@ class Invoice extends FreshbooksAppModel {
 	public $validate = array(
 		'client_id' => 'numeric',
 	);
-	
-	// TODO: sendByEmail
-	// TODO: sendBySnailMail
 
+/**
+ * sendByEmail
+ * @param array $data
+ * @return boolean
+ */
+	public function sendByEmail($data=null) {
+		if (!class_exists('Xml')) {
+			App::import('Core', 'Xml');
+		}
+		$xml =& new Xml(array('request' => array('method' => 'invoice.sendByEmail')));
+		$node =& new Xml($data, array('format' => 'tags'));
+		$xml->first()->append($node->children);
+		$res = $this->freshbooks($xml->toString(array('header' => true)));
+		if ($res === false) {
+			return false;
+		}
+		return true;
+	}
+
+/**
+ * sendBySnailMail
+ * @param array $data
+ * @return boolean
+ */
+	public function sendBySnailMail($data=null) {
+		if (!class_exists('Xml')) {
+			App::import('Core', 'Xml');
+		}
+		$xml =& new Xml(array('request' => array('method' => 'invoice.sendBySnailMail')));
+		$node =& new Xml($data, array('format' => 'tags'));
+		$xml->first()->append($node->children);
+		$res = $this->freshbooks($xml->toString(array('header' => true)));
+		if ($res === false) {
+			return false;
+		}
+		return true;
+	}
 }

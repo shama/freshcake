@@ -204,8 +204,37 @@ class InvoiceTest extends CakeTestCase {
 		
 	}
 
-	// TODO: Test for sendByEmail
-	// TODO: Test for sendBySnailMail
+/**
+ * testSendByEmail
+ */
+	public function testSendByEmail() {
+		$xml =& new Xml($this->successXml);
+		
+		$this->Ds->http =& new MockHttpSocket();
+		$this->Ds->http->setReturnValue('get', $xml->toString());
+		
+		$this->assertTrue($this->Model->sendByEmail(array(
+			'estimate_id' => 13,
+			'subject' => 'Test',
+			'message' => 'This is a test.',
+		)));
+		unset($xml);
+	}
+
+/**
+ * testSendBySnailMail
+ */
+	public function testSendBySnailMail() {
+		$xml =& new Xml($this->successXml);
+		
+		$this->Ds->http =& new MockHttpSocket();
+		$this->Ds->http->setReturnValue('get', $xml->toString());
+		
+		$this->assertTrue($this->Model->sendBySnailMail(array(
+			'invoice_id' => 13,
+		)));
+		unset($xml);
+	}
 
 /**
  * end
