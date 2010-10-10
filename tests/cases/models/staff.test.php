@@ -4,18 +4,11 @@
  * 
  * @package freshcake
  * @author Kyle Robinson Young <kyle at kyletyoung.com>
- * 
- * TODO:
- * 	Add test for staff.current
- * 
  */
 App::import('Model', array('ConnectionManager', 'Freshbooks.Staff'));
 App::import('Core', array('HttpSocket', 'Xml'));
 App::import('Helper', 'Xml');
 Mock::generate('HttpSocket');
-
-// TODO: IGNORE UNTIL STAFF IS IMPLEMENTED
-//SimpleTest::ignore('StaffTest');
 
 class StaffTest extends CakeTestCase {
 
