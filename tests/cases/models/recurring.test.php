@@ -267,8 +267,6 @@ class RecurringTest extends CakeTestCase {
  * testDelete
  */
 	public function testDelete() {
-		
-		// TEST DELETE
 		$xml =& new Xml($this->successXml);
 		
 		$this->Ds->http =& new MockHttpSocket();
@@ -276,7 +274,6 @@ class RecurringTest extends CakeTestCase {
 		
 		$this->assertTrue($this->Model->delete(13));
 		unset($xml);
-		
 	}
 
 /**

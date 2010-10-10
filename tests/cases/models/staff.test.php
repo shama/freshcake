@@ -15,7 +15,7 @@ App::import('Helper', 'Xml');
 Mock::generate('HttpSocket');
 
 // TODO: IGNORE UNTIL STAFF IS IMPLEMENTED
-SimpleTest::ignore('StaffTest');
+//SimpleTest::ignore('StaffTest');
 
 class StaffTest extends CakeTestCase {
 
@@ -88,9 +88,9 @@ class StaffTest extends CakeTestCase {
 					),
 					array(
 						'staff_id' => 14,
-						'username' => 'test',
-						'first_name' => 'Test',
-						'last_name' => 'Person',
+						'username' => 'testy',
+						'first_name' => 'Testy',
+						'last_name' => 'Persony',
 						'email' => 'test@example.com',
 					),
 				),
@@ -154,6 +154,35 @@ class StaffTest extends CakeTestCase {
 		
 	}
 
+
+	public function testCurrent() {
+		$xml =& new Xml($this->successXml);
+		$node =& new Xml(array(
+			'Staff' => array(
+				'staff_id' => 13,
+				'username' => 'test',
+				'first_name' => 'Test',
+				'last_name' => 'Person',
+				'email' => 'test@example.com',
+			),
+		), array('format' => 'tags'));
+		$xml->first()->append($node->children);
+		
+		$this->Ds->http =& new MockHttpSocket();
+		$this->Ds->http->setReturnValue('get', $xml->toString());
+		
+		$res = $this->Model->current();
+		$this->assertEqual($res, array(
+			'Staff' => array(
+				'staff_id' => 13,
+				'username' => 'test',
+				'first_name' => 'Test',
+				'last_name' => 'Person',
+				'email' => 'test@example.com',
+			),
+		));
+		unset($xml);
+	}
 /**
  * end
  */

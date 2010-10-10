@@ -161,6 +161,15 @@ class FreshbooksSource extends DataSource {
 		} elseif ($submethod == 'get') {
 			return array(array($model->alias => current(Set::extract('/Response/'.$model->alias.'/.', $res))));
 		} else {
+			// MEH, ALMOST A HACKLESS DATASOURCE
+			if ($model->alias == 'Staff') {
+				$res = Set::extract('/Response/'.Inflector::camelize($model->useTable).'/Member', $res, array('flatten' => false));
+				foreach ($res as $key => $val) {
+					$res[$key]['Staff'] = $val['Member'];
+					unset($res[$key]['Member']);
+				}
+				return $res;
+			}
 			return Set::extract('/Response/'.Inflector::camelize($model->useTable).'/'.$model->alias, $res, array('flatten' => false));
 		}
 	}
