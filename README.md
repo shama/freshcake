@@ -3,7 +3,7 @@
 ## Features
 
 * Automagically works with scaffolding!
-* Access the entire Freshbooks API (almost)
+* Access the entire Freshbooks API
   * Currently supports create, update, get, delete, list for callbacks, categories, clients, estimates, expenses, gateway, invoices, items, payments, projects, recurring, staff, tasks, and time_entries.
 * Uses triggered exceptions for error handling.
 
@@ -150,11 +150,8 @@ FreshCake is offered under an [MIT license](http://www.opensource.org/licenses/m
 * MORE TESTING! MORE TESTS!
 * Fix issue with some text fields showing up as Array - v0.2
 * Format lines/xml on invoice, estimate and recurring afterFind (so they dont break scaffold) - v0.2
-* Implement estimate.sendByEmail - v0.2
-* Implement invoice.sendByEmail, invoice.sendBySnailMail - v0.2
-* Implement recurring.auto_bill - v0.2
-* Implement staff.current - v0.2
-* Add support for staff (needs custom afterFind) - v0.2
+* Uppercases returned results if array, it should not - v0.2
+* Returns blank arrays when it should return '' - v0.2
 * Test support for linking models together (hopefully already does automatically) - v0.2
 * Implement OAuth support - v0.3
 * i18n - v0.3
@@ -163,6 +160,11 @@ FreshCake is offered under an [MIT license](http://www.opensource.org/licenses/m
 
 ### 0.2
 
+* Implemented system.current and added test case
+* Implemented staff.current and fixed response from staff.list
+* Implemented recurring autobill and added test cases
+* Added invoice.sendByEmail and invoice.sendBySnailMail and test cases
+* Added estimate.sendByEmail and test case
 * Fields can be set to custom XML now (needed for fixing tasks in project)
 * Added test cases for callback.verify, callback.resendToken
 * Added support for callback.verify, callback.resendToken
