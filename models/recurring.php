@@ -136,13 +136,32 @@ class Recurring extends FreshbooksAppModel {
 			'type' => 'text',
 			'null' => true,
 		),
-		
-		// TODO: Implement AutoBill
-		
+		'autobill' => array(
+			'type' => 'text',
+			'null' => true,
+		),
 	);
 	public $validate = array(
 		'client_id' => 'numeric',
 		'date' => 'date',
 	);
 
+/**
+ * beforeSave
+ * Set autobill to xml as the datasource 
+ * cant handle it automatically
+ * 
+ * @return boolean
+ */
+	public function beforeSave() {
+		parent::beforeSave();
+		if (isset($this->data[$this->name]['autobill'])) {
+			$tasks =& new Xml(
+				array('autobill' => $this->data[$this->name]['autobill']),
+				array('format' => 'tags')
+			);
+			$this->data[$this->name]['autobill'] = $tasks->toString();
+		}
+		return true;
+	}
 }
