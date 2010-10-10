@@ -129,5 +129,22 @@ class Estimate extends FreshbooksAppModel {
 		'client_id' => 'numeric',
 	);
 
-	// TODO: sendByEmail
+/**
+ * sendByEmail
+ * @param array $data
+ * @return boolean
+ */
+	public function sendByEmail($data=null) {
+		if (!class_exists('Xml')) {
+			App::import('Core', 'Xml');
+		}
+		$xml =& new Xml(array('request' => array('method' => 'estimate.sendByEmail')));
+		$node =& new Xml($data, array('format' => 'tags'));
+		$xml->first()->append($node->children);
+		$res = $this->freshbooks($xml->toString(array('header' => true)));
+		if ($res === false) {
+			return false;
+		}
+		return true;
+	}
 }

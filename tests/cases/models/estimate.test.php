@@ -195,8 +195,6 @@ class EstimateTest extends CakeTestCase {
  * testDelete
  */
 	public function testDelete() {
-		
-		// TEST DELETE
 		$xml =& new Xml($this->successXml);
 		
 		$this->Ds->http =& new MockHttpSocket();
@@ -204,10 +202,24 @@ class EstimateTest extends CakeTestCase {
 		
 		$this->assertTrue($this->Model->delete(13));
 		unset($xml);
-		
 	}
-	
-	// TODO: Add tests for sendByEmail
+
+/**
+ * testSendByEmail
+ */
+	public function testSendByEmail() {
+		$xml =& new Xml($this->successXml);
+		
+		$this->Ds->http =& new MockHttpSocket();
+		$this->Ds->http->setReturnValue('get', $xml->toString());
+		
+		$this->assertTrue($this->Model->sendByEmail(array(
+			'estimate_id' => 13,
+			'subject' => 'Test',
+			'message' => 'This is a test.',
+		)));
+		unset($xml);
+	}
 
 /**
  * end
