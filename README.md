@@ -15,16 +15,16 @@ PHP5+, CakePHP 1.3+, FreshBooks account (w/ API credentials)
 1. [Sign up](http://freshbooks.com) for a FreshBooks account, they are free!
 2. Extract the contents of this repo into *app/plugins/freshbooks/* or use [git clone](http://www.kernel.org/pub/software/scm/git/docs/git-clone.html) or [git submodule](http://www.kernel.org/pub/software/scm/git/docs/git-submodule.html) in your plugins folder:
 
-    git clone git://github.com/shama/freshcake.git freshbooks
+`git clone git://github.com/shama/freshcake.git freshbooks`
 
 3. Copy the following lines into *app/config/database.php* and add your subdomain and api token:
 
 `
-    var $freshbooks = array(
-        'datasource' => 'freshbooks.freshbooks',
-        'subdomain' => 'SUBDOMAIN-HERE',
-        'token' => 'TOKEN-HERE',
-    );
+var $freshbooks = array(
+	'datasource' => 'freshbooks.freshbooks',
+	'subdomain' => 'SUBDOMAIN-HERE',
+	'token' => 'TOKEN-HERE',
+);
 `
 
 *Your subdomain is what you typed into the 'login page' field when you signed up or the word between http:// and .freshbooks.com in your login url.*
