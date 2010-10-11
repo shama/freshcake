@@ -82,6 +82,22 @@ class InvoiceTest extends CakeTestCase {
 						'number' => '1234',
 						'amount' => 99.99,
 						'notes' => 'Test',
+						'lines' => array(
+							'line' => array(
+								array(
+									'name' => 'Yard Work',
+									'description' => 'Mowed the lawn.',
+									'unit_cost' => 10,
+									'quantity' => 4,
+								),
+								array(
+									'name' => 'Yard Work 2',
+									'description' => 'Mowed the lawn again.',
+									'unit_cost' => 10,
+									'quantity' => 4,
+								),
+							),
+						),
 					),
 					array(
 						'invoice_id' => 14,
@@ -107,6 +123,22 @@ class InvoiceTest extends CakeTestCase {
 					'number' => '1234',
 					'amount' => 99.99,
 					'notes' => 'Test',
+					'lines' => array(
+						'line' => array(
+							array(
+								'name' => 'Yard Work',
+								'description' => 'Mowed the lawn.',
+								'unit_cost' => 10,
+								'quantity' => 4,
+							),
+							array(
+								'name' => 'Yard Work 2',
+								'description' => 'Mowed the lawn again.',
+								'unit_cost' => 10,
+								'quantity' => 4,
+							),
+						),
+					),
 				),
 			),
 			1 => array(

@@ -79,6 +79,22 @@ class EstimateTest extends CakeTestCase {
 						'organization' => 'Test Inc.',
 						'first_name' => 'Test',
 						'last_name' => 'Person',
+						'lines' => array(
+							'line' => array(
+								array(
+									'name' => 'Yard Work',
+									'description' => 'Mowed the lawn.',
+									'unit_cost' => 10,
+									'quantity' => 4,
+								),
+								array(
+									'name' => 'Yard Work 2',
+									'description' => 'Mowed the lawn again.',
+									'unit_cost' => 10,
+									'quantity' => 4,
+								),
+							),
+						),
 					),
 					array(
 						'esimate_id' => 14,
@@ -106,6 +122,22 @@ class EstimateTest extends CakeTestCase {
 					'organization' => 'Test Inc.',
 					'first_name' => 'Test',
 					'last_name' => 'Person',
+					'lines' => array(
+						'line' => array(
+							array(
+								'name' => 'Yard Work',
+								'description' => 'Mowed the lawn.',
+								'unit_cost' => 10,
+								'quantity' => 4,
+							),
+							array(
+								'name' => 'Yard Work 2',
+								'description' => 'Mowed the lawn again.',
+								'unit_cost' => 10,
+								'quantity' => 4,
+							),
+						),
+					),
 				),
 			),
 			1 => array(

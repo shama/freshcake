@@ -84,6 +84,33 @@ class RecurringTest extends CakeTestCase {
 						'organization' => 'Test Inc.',
 						'first_name' => 'Test',
 						'last_name' => 'Person',
+						'autobill' => array(
+							'gateway' => 'Authorize.net',
+							'card' => array(
+								'number' => '4111 1111 1111 1111',
+								'name' => 'Test Person',
+								'expiration' => array(
+									'month' => 3,
+									'year' => 2010,
+								),
+							),
+						),
+						'lines' => array(
+							'line' => array(
+								array(
+									'name' => 'Yard Work',
+									'description' => 'Mowed the lawn.',
+									'unit_cost' => 10,
+									'quantity' => 4,
+								),
+								array(
+									'name' => 'Yard Work 2',
+									'description' => 'Mowed the lawn again.',
+									'unit_cost' => 10,
+									'quantity' => 4,
+								),
+							),
+						),
 					),
 					array(
 						'recurring_id' => 14,
@@ -115,6 +142,33 @@ class RecurringTest extends CakeTestCase {
 					'organization' => 'Test Inc.',
 					'first_name' => 'Test',
 					'last_name' => 'Person',
+					'autobill' => array(
+						'gateway' => 'Authorize.net',
+						'card' => array(
+							'number' => '4111 1111 1111 1111',
+							'name' => 'Test Person',
+							'expiration' => array(
+								'month' => 3,
+								'year' => 2010,
+							),
+						),
+					),
+					'lines' => array(
+						'line' => array(
+							array(
+								'name' => 'Yard Work',
+								'description' => 'Mowed the lawn.',
+								'unit_cost' => 10,
+								'quantity' => 4,
+							),
+							array(
+								'name' => 'Yard Work 2',
+								'description' => 'Mowed the lawn again.',
+								'unit_cost' => 10,
+								'quantity' => 4,
+							),
+						),
+					),
 				),
 			),
 			1 => array(
