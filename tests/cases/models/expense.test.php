@@ -220,6 +220,7 @@ class ExpenseTest extends CakeTestCase {
 	public function end() {
 		unset($this->Ds);
 		unset($this->Model);
+		Cache::clear(false, 'freshbooks');
 	}
 
 }

@@ -19,13 +19,11 @@ PHP5+, CakePHP 1.3+, FreshBooks account (w/ API credentials)
 
 3. Copy the following lines into *app/config/database.php* and add your subdomain and api token:
 
-`
-var $freshbooks = array(
+`var $freshbooks = array(
 	'datasource' => 'freshbooks.freshbooks',
 	'subdomain' => 'SUBDOMAIN-HERE',
 	'token' => 'TOKEN-HERE',
-);
-`
+);`
 
 *Your subdomain is what you typed into the 'login page' field when you signed up or the word between http:// and .freshbooks.com in your login url.*
 
@@ -164,6 +162,7 @@ If you found this release useful please let the author know! Follow on [Twitter]
 
 ### 0.2
 
+* Implemented caching on read with per model cache override option
 * Fixed formatting issues with responses
 * Implemented system.current and added test case
 * Implemented staff.current and fixed response from staff.list

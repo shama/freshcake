@@ -9,6 +9,7 @@ App::import('Core', 'Xml');
 class Project extends FreshbooksAppModel {
 	public $name = 'Project';
 	public $displayField = 'name';
+	public $cache = array('duration' => '+30 days');
 	public $schema = array(
 		'project_id' => array(
 			'type' => 'integer',

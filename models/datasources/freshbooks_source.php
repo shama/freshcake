@@ -142,13 +142,23 @@ class FreshbooksSource extends DataSource {
 			$params['page'] = (!empty($data['page'])) ? $data['page'] : 1;
 			$params = Set::merge((array)$data['conditions'], $params);
 		}
-		$params = array_map(create_function('$a', 'return array($a);'), $params);
-		$xml =& new Xml(array('Request' => array('method' => $method.'.'.$submethod)+$params));
-		$this->__requestXml = $xml->toString(array('header' => true));
-		$res = $this->_parseResponse($this->http->get($this->url, null, array_merge(
-			$this->__getAuthArray(),
-			array('body' => $this->__requestXml)
-		)));
+		$hash = $method.'_'.$submethod.'_'.implode('_', array_merge(array_keys($params), array_values($params)));
+		$hash = hash('md4', $hash);
+		if (($res = Cache::read($hash, $this->config['cache'])) === false || $this->config['cache'] === false) {
+			$params = array_map(create_function('$a', 'return array($a);'), $params);
+			$xml =& new Xml(array('Request' => array('method' => $method.'.'.$submethod)+$params));
+			$this->__requestXml = $xml->toString(array('header' => true));
+			$res = $this->_parseResponse($this->http->get($this->url, null, array_merge(
+				$this->__getAuthArray(),
+				array('body' => $this->__requestXml)
+			)));
+			if ($this->config['cache'] !== false) {
+				if (isset($model->cache)) {
+					Cache::set($model->cache);
+				}
+				Cache::write($hash, $res, $this->config['cache']);
+			}
+		}
 		if ($res === false) {
 			return array();
 		}
