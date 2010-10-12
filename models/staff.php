@@ -9,6 +9,7 @@ Inflector::rules('plural', array('irregular' => array('staff' => 'staff_members'
 class Staff extends FreshbooksAppModel {
 	public $name = 'Staff';
 	public $displayField = 'username';
+	public $cache = array('duration' => '+30 days');
 
 /**
  * current

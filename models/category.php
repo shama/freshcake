@@ -8,6 +8,7 @@
 class Category extends FreshbooksAppModel {
 	public $name = 'Category';
 	public $displayField = 'name';
+	public $cache = array('duration' => '+30 days');
 	public $schema = array(
 		'category_id' => array(
 			'type' => 'integer',

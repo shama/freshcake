@@ -8,6 +8,7 @@
 class Client extends FreshbooksAppModel {
 	public $name = 'Client';
 	public $displayField = 'username';
+	public $cache = array('duration' => '+30 days');
 	public $schema = array(
 		'client_id' => array(
 			'type' => 'integer',

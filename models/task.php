@@ -8,6 +8,7 @@
 class Task extends FreshbooksAppModel {
 	public $name = 'Task';
 	public $displayField = 'name';
+	public $cache = array('duration' => '+30 days');
 	public $schema = array(
 		'task_id' => array(
 			'type' => 'integer',

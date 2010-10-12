@@ -8,6 +8,7 @@
 class Callback extends FreshbooksAppModel {
 	public $name = 'Callback';
 	public $displayField = 'event';
+	public $cache = array('duration' => '+1 days');
 	public $schema = array(
 		'callback_id' => array(
 			'type' => 'integer',

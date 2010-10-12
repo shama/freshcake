@@ -8,6 +8,7 @@
 class Item extends FreshbooksAppModel {
 	public $name = 'Item';
 	public $displayField = 'name';
+	public $cache = array('duration' => '+30 days');
 	public $schema = array(
 		'item_id' => array(
 			'type' => 'integer',
