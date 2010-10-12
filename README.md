@@ -4,7 +4,8 @@
 
 * Automagically works with scaffolding!
 * Access the entire Freshbooks API!
-* Uses triggered exceptions for error handling.
+* Uses thrown exceptions for error handling.
+* Caching enabled to speed up and avoid your 5000 daily request limit!
 
 ## Requirements
 
