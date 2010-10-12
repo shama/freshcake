@@ -20,11 +20,11 @@ PHP5+, CakePHP 1.3+, FreshBooks account (w/ API credentials)
 
 3. Copy the following lines into *app/config/database.php* and add your subdomain and api token:
 
-`var $freshbooks = array(
-	'datasource' => 'freshbooks.freshbooks',
-	'subdomain' => 'SUBDOMAIN-HERE',
-	'token' => 'TOKEN-HERE',
-);`
+	`var $freshbooks = array(
+		'datasource' => 'freshbooks.freshbooks',
+		'subdomain' => 'SUBDOMAIN-HERE',
+		'token' => 'TOKEN-HERE',
+	);`
 
 *Your subdomain is what you typed into the 'login page' field when you signed up or the word between http:// and .freshbooks.com in your login url.*
 
@@ -155,9 +155,9 @@ If you found this release useful please let the author know! Follow on [Twitter]
 * MORE TESTING! MORE TESTS!
 * Fix issue with some text fields showing up as Array - v0.2
 * Format lines/xml on invoice, estimate and recurring afterFind (so they dont break scaffold) - v0.2
-* Test support for linking models together (hopefully already does automatically) - v0.2
 * Implement OAuth support - v0.3
 * i18n - v0.3
+* Smart Caching: If models have a relation then perform a 'list' call and cache it first. This will hit the freshbooks api less and speed up performance.
 
 ## Changelog
 
