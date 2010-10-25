@@ -318,6 +318,103 @@ class RecurringTest extends CakeTestCase {
 	}
 
 /**
+ * testLines
+ */
+	public function testLines() {
+		// recurring.lines.add
+		$save_data = array(
+			'recurring_id' => 13,
+			'lines' => array(
+				array(
+					'amount' => 99,
+					'name' => 'Yak Shaving',
+					'description' => 'Shaved the yak',
+					'unit_cost' => 40,
+					'quantity' => 4,
+					'type' => 'Item',
+				),
+				array(
+					'amount' => 99,
+					'name' => 'Yak Shaving',
+					'description' => 'Shaved the yak',
+					'unit_cost' => 40,
+					'quantity' => 4,
+					'type' => 'Item',
+				),
+			),
+		);
+		$xml =& new Xml($this->successXml);
+		$node =& new Xml(array(
+			'recurring_id' => 13,
+			'lines' => array(
+				array('line_id' => 45),
+				array('line_id' => 46),
+			),
+		), array('format' => 'tags'));
+		$xml->first()->append($node->children);
+		
+		$this->Ds->http =& new MockHttpSocket();
+		$this->Ds->http->setReturnValue('get', $xml->toString());
+		
+		$this->assertTrue($this->Model->saveLines($save_data));
+		
+		$expected = $xml->header()."\n".'<request method="recurring.lines.add"><recurring_id>13</recurring_id><lines><line><amount>99</amount><name><![CDATA[Yak Shaving]]></name><description><![CDATA[Shaved the yak]]></description><unit_cost>40</unit_cost><quantity>4</quantity><type><![CDATA[Item]]></type></line><line><amount>99</amount><name><![CDATA[Yak Shaving]]></name><description><![CDATA[Shaved the yak]]></description><unit_cost>40</unit_cost><quantity>4</quantity><type><![CDATA[Item]]></type></line></lines></request>';
+		$this->assertEqual($this->Model->requestXml(), $expected);
+		unset($xml, $node);
+		
+		// recurring.lines.update
+		$save_data = array(
+			'recurring_id' => 13,
+			'lines' => array(
+				array(
+					'line_id' => 45,
+					'amount' => 99,
+					'name' => 'Yak Shaving',
+					'description' => 'Shaved the yak',
+					'unit_cost' => 40,
+					'quantity' => 4,
+					'type' => 'Item',
+				),
+				array(
+					'line_id' => 46,
+					'amount' => 99,
+					'name' => 'Yak Shaving',
+					'description' => 'Shaved the yak',
+					'unit_cost' => 40,
+					'quantity' => 4,
+					'type' => 'Item',
+				),
+			),
+		);
+		$xml =& new Xml($this->successXml);
+		
+		$this->Ds->http =& new MockHttpSocket();
+		$this->Ds->http->setReturnValue('get', $xml->toString());
+		
+		$this->assertTrue($this->Model->saveLines($save_data));
+		
+		$expected = $xml->header()."\n".'<request method="recurring.lines.update"><recurring_id>13</recurring_id><lines><line><line_id>45</line_id><amount>99</amount><name><![CDATA[Yak Shaving]]></name><description><![CDATA[Shaved the yak]]></description><unit_cost>40</unit_cost><quantity>4</quantity><type><![CDATA[Item]]></type></line><line><line_id>46</line_id><amount>99</amount><name><![CDATA[Yak Shaving]]></name><description><![CDATA[Shaved the yak]]></description><unit_cost>40</unit_cost><quantity>4</quantity><type><![CDATA[Item]]></type></line></lines></request>';
+		$this->assertEqual($this->Model->requestXml(), $expected);
+		unset($xml, $node);
+		
+		// recurring.lines.delete
+		$delete_data = array(
+			'recurring_id' => 13,
+			'line_id' => 45,
+		);
+		$xml =& new Xml($this->successXml);
+		
+		$this->Ds->http =& new MockHttpSocket();
+		$this->Ds->http->setReturnValue('get', $xml->toString());
+		
+		$this->assertTrue($this->Model->deleteLine($delete_data));
+		
+		$expected = $xml->header()."\n".'<request method="recurring.lines.delete"><recurring_id>13</recurring_id><line_id>45</line_id></request>';
+		$this->assertEqual($this->Model->requestXml(), $expected);
+		unset($xml, $node);
+	}
+
+/**
  * testDelete
  */
 	public function testDelete() {

@@ -148,10 +148,12 @@ class FreshbooksSource extends DataSource {
 			$params = array_map(create_function('$a', 'return array($a);'), $params);
 			$xml =& new Xml(array('Request' => array('method' => $method.'.'.$submethod)+$params));
 			$this->__requestXml = $xml->toString(array('header' => true));
-			$res = $this->_parseResponse($this->http->get($this->url, null, array_merge(
-				$this->__getAuthArray(),
-				array('body' => $this->__requestXml)
-			)));
+			$res = $this->_parseResponse(
+				$this->http->get($this->url, null, array_merge(
+					$this->__getAuthArray(),
+					array('body' => $this->__requestXml)
+				)
+			));
 			if ($this->config['cache'] !== false) {
 				if (isset($model->cache)) {
 					Cache::set($model->cache);
@@ -212,10 +214,12 @@ class FreshbooksSource extends DataSource {
 		}
 		if (strtolower($query) == 'freshbooks') {
 			$this->__requestXml = current($data);
-			$res = $this->_parseResponse($this->http->get($this->url, null, array_merge(
-				$this->__getAuthArray(),
-				array('body' => $this->__requestXml)
-			)));
+			$res = $this->_parseResponse(
+				$this->http->get($this->url, null, array_merge(
+					$this->__getAuthArray(),
+					array('body' => $this->__requestXml)
+				)
+			));
 			if ($res === false) {
 				return false;
 			}
@@ -273,10 +277,12 @@ class FreshbooksSource extends DataSource {
 		}
 		$xml->first()->append($node->children);
 		$this->__requestXml = $xml->toString(array('header' => true));
-		$res = $this->_parseResponse($this->http->get($this->url, null, array_merge(
-			$this->__getAuthArray(),
-			array('body' => $this->__requestXml)
-		)));
+		$res = $this->_parseResponse(
+			$this->http->get($this->url, null, array_merge(
+				$this->__getAuthArray(),
+				array('body' => $this->__requestXml)
+			)
+		));
 		if ($res === false) {
 			return false;
 		}
@@ -318,10 +324,12 @@ class FreshbooksSource extends DataSource {
 		$method = (isset($model->method)) ? $model->method : Inflector::underscore($model->alias);
 		$xml =& new Xml(array('Request' => array('method' => $method.'.delete', $model->primaryKey => array($id))));
 		$req = $xml->toString(array('header' => true));
-		$res = $this->_parseResponse($this->http->get($this->url, null, array_merge(
-			$this->__getAuthArray(),
-			array('body' => $req)
-		)));
+		$res = $this->_parseResponse(
+			$this->http->get($this->url, null, array_merge(
+				$this->__getAuthArray(),
+				array('body' => $req)
+			)
+		));
 		if ($res === false) {
 			return false;
 		}

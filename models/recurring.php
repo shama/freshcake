@@ -164,4 +164,65 @@ class Recurring extends FreshbooksAppModel {
 		}
 		return true;
 	}
+
+/**
+ * saveLines
+ * Will either add or update lines or both.
+ * 
+ * @param array $data
+ * @return boolean
+ */
+	public function saveLines($data=null) {
+		if (!isset($data['recurring_id'])) {
+			return false;
+		}
+		if (empty($data['lines'])) {
+			return false;
+		}
+		$update_xml = $add_xml = null;
+		foreach ($data['lines'] as $line) {
+			$line = array('line' => $line);
+			$lines = array(array('recurring_id' => $data['recurring_id']), array('lines' => array()));
+			if (isset($line['line']['line_id'])) {
+				if (!isset($update_xml)) {
+					$update_xml =& new Xml(array('request' => array('method' => 'recurring.lines.update')));
+					$update_xml->first()->append($lines, array('format' => 'tags'));
+				}
+				$update_xml->first()->child('lines')->append($line, array('format' => 'tags'));
+			} else {
+				if (!isset($add_xml)) {
+					$add_xml =& new Xml(array('request' => array('method' => 'recurring.lines.add')));
+					$add_xml->first()->append($lines, array('format' => 'tags'));
+				}
+				$add_xml->first()->child('lines')->append($line, array('format' => 'tags'));
+			}
+		}
+		if (isset($update_xml)) {
+			$this->freshbooks($update_xml->toString(array('header' => true)));
+		}
+		if (isset($add_xml)) {
+			$this->freshbooks($add_xml->toString(array('header' => true)));
+		}
+		return true;
+	}
+
+/**
+ * deleteLine
+ * Deletes a single line from an existing invoice
+ * 
+ * @param array $data
+ * @return boolean
+ */
+	public function deleteLine($data=null) {
+		if (!isset($data['recurring_id']) || !isset($data['line_id'])) {
+			return false;
+		}
+		$xml =& new Xml(array('request' => array('method' => 'recurring.lines.delete')));
+		$xml->first()->append($data, array('format' => 'tags'));
+		$res = $this->freshbooks($xml->toString(array('header' => true)));
+		if ($res === false) {
+			return false;
+		}
+		return true;
+	}
 }
