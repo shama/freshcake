@@ -158,11 +158,14 @@ If you found this release useful please let the author know! Follow on [Twitter]
 * Implement OAuth support - v0.3
 * i18n - v0.3
 * Smart Caching: If models have a relation then perform a 'list' call and cache it first. This will hit the freshbooks api less and speed up performance.
+* Use SimpleXml instead of Core Cake XML
+* Add support for invoice/recurring.lines.add/delete/update
 
 ## Changelog
 
 ### 0.2
 
+* Added support for project.hour_budget
 * Implemented caching on read with per model cache override option
 * Fixed formatting issues with responses
 * Implemented system.current and added test case

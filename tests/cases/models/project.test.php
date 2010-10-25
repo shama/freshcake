@@ -155,6 +155,7 @@ class ProjectTest extends CakeTestCase {
 			'name' => 'Test',
 			'description' => 'This is a test.',
 			'rate' => 99,
+			'hour_budget' => 99,
 			'client_id' => 13,
 		);
 		
@@ -170,6 +171,9 @@ class ProjectTest extends CakeTestCase {
 		
 		$this->assertTrue($this->Model->save($save_data));
 		$this->assertEqual($this->Model->id, 13);
+		
+		$expected = $xml->header()."\n".'<request method="project.update"><project><name><![CDATA[Test]]></name><description><![CDATA[This is a test.]]></description><rate>99</rate><hour_budget>99</hour_budget><client_id>13</client_id><project_id>13</project_id></project></request>';
+		$this->assertEqual($this->Model->requestxml(), $expected);
 		unset($xml, $node);
 		
 		// TEST UPDATE

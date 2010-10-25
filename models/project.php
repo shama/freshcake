@@ -41,6 +41,11 @@ class Project extends FreshbooksAppModel {
 			'type' => 'text',
 			'null' => true,
 		),
+		'hour_budget' => array(
+			'type' => 'decimal',
+			'null' => true,
+			'length' => '10,2',
+		),
 		'tasks' => array(
 			'type' => 'text',
 			'null' => true,
