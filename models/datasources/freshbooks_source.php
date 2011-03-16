@@ -2,7 +2,7 @@
 /**
  * Freshbooks Source
  * DataSource for the Freshbooks API
- * 
+ *
  * Copyright (C) 2010 Kyle Robinson Young
  *
  * Permission is hereby granted, free of charge, to any person
@@ -30,10 +30,10 @@
  * @copyright 2010 Kyle Robinson Young
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  * @version 0.2
- * 
+ *
  * TODO:
  * 	OAuth Support
- * 
+ *
  */
 class FreshbooksSource extends DataSource {
 
@@ -97,7 +97,7 @@ class FreshbooksSource extends DataSource {
 /**
  * init
  * Inits the socket, url and cache.
- * 
+ *
  * @param array $config
  * @return bool
  */
@@ -118,7 +118,7 @@ class FreshbooksSource extends DataSource {
 /**
  * read
  * Handles list and get sub methods.
- * 
+ *
  * @access public
  * @param object $model
  * @param array $data
@@ -194,7 +194,7 @@ class FreshbooksSource extends DataSource {
 /**
  * query
  * Give outside access to things in datasource.
- * 
+ *
  * @param string $query
  * @param array $data
  * @param object $model
@@ -238,7 +238,7 @@ class FreshbooksSource extends DataSource {
 /**
  * create
  * Handles create and update sub methods.
- * 
+ *
  * @access public
  * @param object $model
  * @param array $fields
@@ -295,7 +295,7 @@ class FreshbooksSource extends DataSource {
 /**
  * update
  * Alias for create.
- * 
+ *
  * @access public
  * @param object $model
  * @param array $fields
@@ -308,7 +308,7 @@ class FreshbooksSource extends DataSource {
 
 /**
  * delete
- * 
+ *
  * @access public
  * @param object $model
  * @param integer $id
@@ -339,31 +339,34 @@ class FreshbooksSource extends DataSource {
 /**
  * _parseResponse
  * Either returns response as array or throws error.
- * 
+ *
  * @param string $response
  * @return array
  */
 	protected function _parseResponse($response=null) {
+		if (empty($response)) {
+			return false;
+		}
 		$this->__responseXml = $response;
 		$xml =& new Xml($response);
-		// TODO: Switch to array based to avoid fatal errors.
-		$status = $xml->first()->attributes['status'];
+		$arr = $xml->toArray();
+		$status = trim(current(Set::extract('/Response/status', $arr)));
 		if ($status != 'ok') {
-			$err = $xml->first()->child('error')->first()->value;
+			$err = current(Set::extract('/Response/error', $arr));
 			if (empty($err)) {
 				$err = 'An unknown error occurred.';
 			}
 			throw new Exception(__d('freshbooks', $err, true));
 			return false;
 		}
-		return $xml->toArray();
+		return $arr;
 	}
 
 /**
  * _formatResponse
  * All keys in array lowercase and
  * blank arrays become ''
- * 
+ *
  * @param array $data
  * @param integer $skip
  * @return array
@@ -384,7 +387,7 @@ class FreshbooksSource extends DataSource {
 			}
 		}
 	}
-	
+
 /**
  * listSources
  * @return boolean
@@ -395,7 +398,7 @@ class FreshbooksSource extends DataSource {
 
 /**
  * describe
- * 
+ *
  * @param object $model
  * @return array
  */
