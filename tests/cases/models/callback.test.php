@@ -1,9 +1,9 @@
 <?php
 /**
  * Callback Test
- * 
+ *
  * @package freshcake
- * @author Kyle Robinson Young <kyle at kyletyoung.com> 
+ * @author Kyle Robinson Young <kyle at kyletyoung.com>
  */
 App::import('Model', array('ConnectionManager', 'Freshbooks.Callback'));
 App::import('Core', array('HttpSocket', 'Xml'));
@@ -16,7 +16,7 @@ class CallbackTest extends CakeTestCase {
  * name
  */
 	public $name = 'Callback';
-	
+
 /**
  * Model
  * @var object
@@ -88,10 +88,10 @@ class CallbackTest extends CakeTestCase {
 			),
 		), array('format' => 'tags'));
 		$xml->first()->append($node->children);
-		
+
 		$this->Ds->http =& new MockHttpSocket();
 		$this->Ds->http->setReturnValue('get', $xml->toString());
-		
+
 		$res = $this->Model->find('all');
 		$this->assertEqual($res, array(
 			0 => array(
@@ -142,10 +142,10 @@ class CallbackTest extends CakeTestCase {
  */
 	public function testDelete() {
 		$xml =& new Xml($this->successXml);
-		
+
 		$this->Ds->http =& new MockHttpSocket();
 		$this->Ds->http->setReturnValue('get', $xml->toString());
-		
+
 		$this->assertTrue($this->Model->delete(13));
 		unset($xml);
 	}
@@ -155,10 +155,10 @@ class CallbackTest extends CakeTestCase {
  */
 	public function testVerify() {
 		$xml =& new Xml($this->successXml);
-		
+
 		$this->Ds->http =& new MockHttpSocket();
 		$this->Ds->http->setReturnValue('get', $xml->toString());
-		
+
 		$this->assertTrue($this->Model->verify(array(
 			'callback_id' => 13,
 			'verifier' => '1234',
@@ -171,10 +171,10 @@ class CallbackTest extends CakeTestCase {
  */
 	public function testResendToken() {
 		$xml =& new Xml($this->successXml);
-		
+
 		$this->Ds->http =& new MockHttpSocket();
 		$this->Ds->http->setReturnValue('get', $xml->toString());
-		
+
 		$this->assertTrue($this->Model->resendToken(array(
 			'callback_id' => 13,
 		)));

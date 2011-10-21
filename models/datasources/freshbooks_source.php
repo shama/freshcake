@@ -264,15 +264,15 @@ class FreshbooksSource extends DataSource {
 			if (is_array($val)) {
 				$singular = Inflector::singularize($key);
 				$val = array($key => array($singular => $val));
-				$node->first()->append($val, array('format' => 'tags'));
+				@$node->first()->append($val, array('format' => 'tags'));
 				unset($data[$key]);
 			} elseif (substr($val, 0, 1) == '<') {
 				$my_node =& new Xml($val);
-				$node->first()->append($my_node->children);
+				@$node->first()->append($my_node->children);
 				unset($data[$key]);
 			} else {
 				$my = array($key => array(array($val)));
-				$node->first()->append($my);
+				@$node->first()->append($my);
 			}
 		}
 		$xml->first()->append($node->children);

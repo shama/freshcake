@@ -20,11 +20,11 @@ PHP5+, CakePHP 1.3+, FreshBooks account (w/ API credentials)
 
 3. Copy the following lines into *app/config/database.php* and add your subdomain and api token:
 
-	`var $freshbooks = array(
-		'datasource' => 'freshbooks.freshbooks',
-		'subdomain' => 'SUBDOMAIN-HERE',
-		'token' => 'TOKEN-HERE',
-	);`
+    var $freshbooks = array(
+        'datasource' => 'freshbooks.freshbooks',
+        'subdomain' => 'SUBDOMAIN-HERE',
+        'token' => 'TOKEN-HERE',
+    );
 
 *Your subdomain is what you typed into the 'login page' field when you signed up or the word between http:// and .freshbooks.com in your login url.*
 
@@ -147,7 +147,7 @@ FreshCake is offered under an [MIT license](http://www.opensource.org/licenses/m
 
 ## Copyright
 
-2010 Kyle Robinson Young, [kyletyoung.com](http://kyletyoung.com)
+2010 Kyle Robinson Young, [dontkry.com](http://dontkry.com)
 If you found this release useful please let the author know! Follow on [Twitter](http://twitter.com/kyletyoung)
 
 ## Roadmap and Known Issues
@@ -163,6 +163,7 @@ If you found this release useful please let the author know! Follow on [Twitter]
 
 ### 0.2
 
+* Changed ds _parseResponse to use arrays to prevent fatal errors
 * Added support for invoice/recurring.lines.add/delete/update
 * Added support for project.hour_budget
 * Implemented caching on read with per model cache override option
